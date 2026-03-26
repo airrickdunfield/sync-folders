@@ -9,9 +9,6 @@
 # Usage (local):
 #   sh install.sh
 
-# When piped via curl, stdin is the curl output — redirect to terminal so
-# interactive prompts work correctly
-exec < /dev/tty
 
 REPO_RAW="https://raw.githubusercontent.com/YOUR_USERNAME/echo-sync/main"
 INSTALL_DIR="$HOME/bin"
@@ -76,7 +73,7 @@ prompt_path() {
     hint="$2"
     while true; do
         printf "  %s path: " "$label"
-        read -r input_path
+        read -r input_path < /dev/tty
         # Normalize: strip trailing slash then re-add
         input_path="${input_path%/}/"
         folder="${input_path%/}"
@@ -87,7 +84,7 @@ prompt_path() {
         else
             printf "  ${YELLOW}⚠ That path doesn't exist or isn't mounted right now.${RESET}\n"
             printf "  Use it anyway? [y/N]: "
-            read -r confirm
+            read -r confirm < /dev/tty
             case "$confirm" in
                 [Yy]*) RESULT="$input_path"; return 0 ;;
             esac
@@ -138,7 +135,7 @@ printf "  Syncing:  ${CYAN}%s${RESET}\n" "$SOURCE_PATH"
 printf "       →   ${CYAN}%s${RESET}\n" "$DEST_PATH"
 printf "\n"
 printf "  Looks good? [Y/n]: "
-read -r confirm
+read -r confirm < /dev/tty
 case "$confirm" in
     [Nn]*) printf "\n  Cancelled. Run the installer again to start over.\n\n"; exit 0 ;;
 esac

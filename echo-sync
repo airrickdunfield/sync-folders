@@ -1,0 +1,123 @@
+#!/bin/zsh
+
+# echo-sync — syncs a source folder to a destination folder
+# Usage:
+#   echo-sync           one-time sync
+#   echo-sync --watch   sync now, then watch for changes and re-sync automatically
+#   echo-sync --help    show usage
+
+SOURCE="##SOURCE_PATH##"
+DEST="##DEST_PATH##"
+
+# Colors
+BOLD='\033[1m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+CYAN='\033[0;36m'
+DIM='\033[2m'
+RESET='\033[0m'
+
+OS="$(uname)"
+
+check_drives() {
+    local ok=1
+    if [[ ! -d "$SOURCE" ]]; then
+        echo "${RED}✗ Source folder not found: $SOURCE${RESET}"
+        ok=0
+    fi
+    if [[ ! -d "$DEST" ]]; then
+        echo "${RED}✗ Destination folder not found: $DEST${RESET}"
+        ok=0
+    fi
+    [[ $ok -eq 1 ]]
+}
+
+do_sync() {
+    local timestamp
+    timestamp=$(date '+%H:%M:%S')
+    echo ""
+    echo "${CYAN}${BOLD}[$timestamp] Syncing...${RESET}"
+    echo "${DIM}  $SOURCE${RESET}"
+    echo "${DIM}  ↓  $DEST${RESET}"
+    echo ""
+
+    rsync -av --delete --progress "$SOURCE" "$DEST"
+    local exit_code=$?
+
+    echo ""
+    if [[ $exit_code -eq 0 ]]; then
+        echo "${GREEN}${BOLD}✓ Sync complete.${RESET}"
+    else
+        echo "${RED}${BOLD}✗ Sync failed (rsync exit code $exit_code).${RESET}"
+    fi
+    return $exit_code
+}
+
+watch_changes() {
+    if [[ "$OS" == "Darwin" ]]; then
+        if ! command -v fswatch &>/dev/null; then
+            echo "${RED}${BOLD}✗ fswatch is not installed${RESET} — required for watch mode."
+            echo "  Install it with:  ${BOLD}brew install fswatch${RESET}"
+            exit 1
+        fi
+        fswatch -o -r "$SOURCE" | while read -r; do
+            echo ""
+            echo "${YELLOW}⟳  Change detected — syncing...${RESET}"
+            do_sync
+        done
+    else
+        if ! command -v inotifywait &>/dev/null; then
+            echo "${RED}${BOLD}✗ inotifywait is not installed${RESET} — required for watch mode."
+            echo "  Install it with:  ${BOLD}sudo apt install inotify-tools${RESET}  (or your distro's equivalent)"
+            exit 1
+        fi
+        inotifywait -m -r -e create,modify,delete,move "$SOURCE" 2>/dev/null | while read -r; do
+            echo ""
+            echo "${YELLOW}⟳  Change detected — syncing...${RESET}"
+            do_sync
+        done
+    fi
+}
+
+case "$1" in
+    --watch)
+        if ! check_drives; then
+            exit 1
+        fi
+
+        echo ""
+        echo "${BOLD}echo-sync${RESET} — watching for changes"
+        echo "${DIM}  $SOURCE${RESET}"
+        echo "${DIM}Press Ctrl+C to stop.${RESET}"
+
+        do_sync
+        watch_changes
+        ;;
+
+    --help|-h)
+        echo ""
+        echo "${BOLD}echo-sync${RESET} — folder sync tool"
+        echo ""
+        echo "  ${BOLD}echo-sync${RESET}          Perform a one-time sync"
+        echo "  ${BOLD}echo-sync --watch${RESET}  Sync now, then watch for changes and re-sync automatically"
+        echo "  ${BOLD}echo-sync --help${RESET}   Show this help"
+        echo ""
+        echo "  Source:  $SOURCE"
+        echo "  Dest:    $DEST"
+        echo ""
+        ;;
+
+    "")
+        if ! check_drives; then
+            exit 1
+        fi
+        do_sync
+        ;;
+
+    *)
+        echo "${RED}Unknown option: $1${RESET}"
+        echo "Run '${BOLD}echo-sync --help${RESET}' for usage."
+        exit 1
+        ;;
+esac

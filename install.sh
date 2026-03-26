@@ -10,7 +10,7 @@
 #   sh install.sh
 
 
-REPO_RAW="https://raw.githubusercontent.com/YOUR_USERNAME/echo-sync/main"
+REPO_RAW="https://raw.githubusercontent.com/airrickdunfield/sync-folders/main"
 INSTALL_DIR="$HOME/bin"
 SHELL_RC=""
 OS="$(uname)"

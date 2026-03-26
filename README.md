@@ -12,8 +12,6 @@ Supports **macOS** and **Linux**.
 curl -fsSL https://raw.githubusercontent.com/airrickdunfield/sync-folders/main/install.sh | sh
 ```
 
-> Replace `YOUR_USERNAME` with your GitHub username before sharing.
-
 The installer will:
 
 1. Ask for your **source folder** (the folder to sync from)

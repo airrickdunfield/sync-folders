@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# echo-sync installer
+# folder-sync installer
 # Supports macOS and Linux
 #
 # Usage (curl):
-#   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/echo-sync/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/folder-sync/main/install.sh | sh
 #
 # Usage (local):
 #   sh install.sh
@@ -96,7 +96,7 @@ prompt_path() {
 
 printf "\n"
 printf "${BOLD}╔══════════════════════════════╗${RESET}\n"
-printf "${BOLD}║     echo-sync  installer     ║${RESET}\n"
+printf "${BOLD}║     folder-sync  installer     ║${RESET}\n"
 printf "${BOLD}╚══════════════════════════════╝${RESET}\n"
 printf "\n"
 
@@ -149,33 +149,33 @@ if [ ! -d "$INSTALL_DIR" ]; then
     printf "${GREEN}✓ Created %s${RESET}\n" "$INSTALL_DIR"
 fi
 
-# ─── Step 4: Download and configure echo-sync ────────────────────────────────
+# ─── Step 4: Download and configure folder-sync ────────────────────────────────
 
 if command -v curl >/dev/null 2>&1; then
-    curl -fsSL "$REPO_RAW/echo-sync" -o "$INSTALL_DIR/echo-sync"
+    curl -fsSL "$REPO_RAW/folder-sync" -o "$INSTALL_DIR/folder-sync"
 elif command -v wget >/dev/null 2>&1; then
-    wget -qO "$INSTALL_DIR/echo-sync" "$REPO_RAW/echo-sync"
+    wget -qO "$INSTALL_DIR/folder-sync" "$REPO_RAW/folder-sync"
 else
-    printf "${RED}✗ Neither curl nor wget is available. Cannot download echo-sync.${RESET}\n"
+    printf "${RED}✗ Neither curl nor wget is available. Cannot download folder-sync.${RESET}\n"
     exit 1
 fi
 
 # Bake in source and dest paths (sed syntax differs between macOS and Linux)
 if [ "$OS" = "Darwin" ]; then
-    sed -i '' "s|##SOURCE_PATH##|$SOURCE_PATH|g" "$INSTALL_DIR/echo-sync"
-    sed -i '' "s|##DEST_PATH##|$DEST_PATH|g"     "$INSTALL_DIR/echo-sync"
+    sed -i '' "s|##SOURCE_PATH##|$SOURCE_PATH|g" "$INSTALL_DIR/folder-sync"
+    sed -i '' "s|##DEST_PATH##|$DEST_PATH|g"     "$INSTALL_DIR/folder-sync"
 else
-    sed -i "s|##SOURCE_PATH##|$SOURCE_PATH|g" "$INSTALL_DIR/echo-sync"
-    sed -i "s|##DEST_PATH##|$DEST_PATH|g"     "$INSTALL_DIR/echo-sync"
+    sed -i "s|##SOURCE_PATH##|$SOURCE_PATH|g" "$INSTALL_DIR/folder-sync"
+    sed -i "s|##DEST_PATH##|$DEST_PATH|g"     "$INSTALL_DIR/folder-sync"
 fi
 
-chmod +x "$INSTALL_DIR/echo-sync"
-printf "${GREEN}✓ Installed echo-sync to %s${RESET}\n" "$INSTALL_DIR"
+chmod +x "$INSTALL_DIR/folder-sync"
+printf "${GREEN}✓ Installed folder-sync to %s${RESET}\n" "$INSTALL_DIR"
 
 # ─── Step 5: Add ~/bin to PATH ────────────────────────────────────────────────
 
 if ! grep -q 'export PATH="$HOME/bin:$PATH"' "$SHELL_RC" 2>/dev/null; then
-    printf '\n# echo-sync\nexport PATH="$HOME/bin:$PATH"\n' >> "$SHELL_RC"
+    printf '\n# folder-sync\nexport PATH="$HOME/bin:$PATH"\n' >> "$SHELL_RC"
     printf "${GREEN}✓ Added ~/bin to PATH in %s${RESET}\n" "$SHELL_RC"
 else
     printf "${CYAN}✓ ~/bin already in PATH — skipped${RESET}\n"
@@ -204,6 +204,6 @@ fi
 printf "\n${DIM}──────────────────────────────────────────${RESET}\n\n"
 printf "${GREEN}${BOLD}✓ Installation complete!${RESET}\n\n"
 printf "  Open a new terminal window, then use:\n\n"
-printf "    ${BOLD}echo-sync${RESET}          sync once\n"
-printf "    ${BOLD}echo-sync --watch${RESET}  sync and watch for changes\n"
-printf "    ${BOLD}echo-sync --help${RESET}   show usage\n\n"
+printf "    ${BOLD}folder-sync${RESET}          sync once\n"
+printf "    ${BOLD}folder-sync --watch${RESET}  sync and watch for changes\n"
+printf "    ${BOLD}folder-sync --help${RESET}   show usage\n\n"

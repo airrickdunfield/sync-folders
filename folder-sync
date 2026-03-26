@@ -1,10 +1,10 @@
 #!/bin/zsh
 
-# echo-sync — syncs a source folder to a destination folder
+# folder-sync — syncs a source folder to a destination folder
 # Usage:
-#   echo-sync           one-time sync
-#   echo-sync --watch   sync now, then watch for changes and re-sync automatically
-#   echo-sync --help    show usage
+#   folder-sync           one-time sync
+#   folder-sync --watch   sync now, then watch for changes and re-sync automatically
+#   folder-sync --help    show usage
 
 SOURCE="##SOURCE_PATH##"
 DEST="##DEST_PATH##"
@@ -87,7 +87,7 @@ case "$1" in
         fi
 
         echo ""
-        echo "${BOLD}echo-sync${RESET} — watching for changes"
+        echo "${BOLD}folder-sync${RESET} — watching for changes"
         echo "${DIM}  $SOURCE${RESET}"
         echo "${DIM}Press Ctrl+C to stop.${RESET}"
 
@@ -97,11 +97,11 @@ case "$1" in
 
     --help|-h)
         echo ""
-        echo "${BOLD}echo-sync${RESET} — folder sync tool"
+        echo "${BOLD}folder-sync${RESET} — folder sync tool"
         echo ""
-        echo "  ${BOLD}echo-sync${RESET}          Perform a one-time sync"
-        echo "  ${BOLD}echo-sync --watch${RESET}  Sync now, then watch for changes and re-sync automatically"
-        echo "  ${BOLD}echo-sync --help${RESET}   Show this help"
+        echo "  ${BOLD}folder-sync${RESET}          Perform a one-time sync"
+        echo "  ${BOLD}folder-sync --watch${RESET}  Sync now, then watch for changes and re-sync automatically"
+        echo "  ${BOLD}folder-sync --help${RESET}   Show this help"
         echo ""
         echo "  Source:  $SOURCE"
         echo "  Dest:    $DEST"
@@ -117,7 +117,7 @@ case "$1" in
 
     *)
         echo "${RED}Unknown option: $1${RESET}"
-        echo "Run '${BOLD}echo-sync --help${RESET}' for usage."
+        echo "Run '${BOLD}folder-sync --help${RESET}' for usage."
         exit 1
         ;;
 esac

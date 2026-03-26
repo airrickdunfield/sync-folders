@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# echo-sync uninstaller
+# folder-sync uninstaller
 # Supports macOS and Linux
 #
 # Usage:
@@ -28,31 +28,31 @@ else
     SHELL_RC="$HOME/.profile"
 fi
 
-printf "\n${BOLD}Uninstalling echo-sync...${RESET}\n\n"
+printf "\n${BOLD}Uninstalling folder-sync...${RESET}\n\n"
 
 # ─── Remove the script ────────────────────────────────────────────────────────
 
-if [ -f "$INSTALL_DIR/echo-sync" ]; then
-    rm "$INSTALL_DIR/echo-sync"
-    printf "${GREEN}✓ Removed %s/echo-sync${RESET}\n" "$INSTALL_DIR"
+if [ -f "$INSTALL_DIR/folder-sync" ]; then
+    rm "$INSTALL_DIR/folder-sync"
+    printf "${GREEN}✓ Removed %s/folder-sync${RESET}\n" "$INSTALL_DIR"
 else
-    printf "${YELLOW}⚠ echo-sync not found in %s — skipping${RESET}\n" "$INSTALL_DIR"
+    printf "${YELLOW}⚠ folder-sync not found in %s — skipping${RESET}\n" "$INSTALL_DIR"
 fi
 
 # ─── Remove the PATH entry from shell rc ─────────────────────────────────────
 
-if grep -q '# echo-sync' "$SHELL_RC" 2>/dev/null; then
+if grep -q '# folder-sync' "$SHELL_RC" 2>/dev/null; then
     if [ "$OS" = "Darwin" ]; then
-        sed -i '' '/# echo-sync/{N;N;d;}' "$SHELL_RC"
+        sed -i '' '/# folder-sync/{N;N;d;}' "$SHELL_RC"
     else
-        sed -i '/# echo-sync/{N;N;d;}' "$SHELL_RC"
+        sed -i '/# folder-sync/{N;N;d;}' "$SHELL_RC"
     fi
     printf "${GREEN}✓ Removed PATH entry from %s${RESET}\n" "$SHELL_RC"
 else
-    printf "${YELLOW}⚠ No echo-sync entry found in %s — skipping${RESET}\n" "$SHELL_RC"
+    printf "${YELLOW}⚠ No folder-sync entry found in %s — skipping${RESET}\n" "$SHELL_RC"
 fi
 
 # ─── Done ─────────────────────────────────────────────────────────────────────
 
-printf "\n${GREEN}${BOLD}✓ echo-sync uninstalled.${RESET}\n"
+printf "\n${GREEN}${BOLD}✓ folder-sync uninstalled.${RESET}\n"
 printf "${DIM}Open a new terminal window for the PATH change to take effect.${RESET}\n\n"

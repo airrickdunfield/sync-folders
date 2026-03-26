@@ -9,6 +9,10 @@
 # Usage (local):
 #   sh install.sh
 
+# When piped via curl, stdin is the curl output — redirect to terminal so
+# interactive prompts work correctly
+exec < /dev/tty
+
 REPO_RAW="https://raw.githubusercontent.com/YOUR_USERNAME/echo-sync/main"
 INSTALL_DIR="$HOME/bin"
 SHELL_RC=""

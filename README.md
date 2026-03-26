@@ -39,7 +39,7 @@ folder-sync --help      # Show usage and configured paths
 ## Uninstallation
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/folder-sync/main/uninstall.sh | sh
+curl -fsSL https://raw.githubusercontent.com/airrickdunfield/folder-sync/main/uninstall.sh | sh
 ```
 
 This removes the `folder-sync` script from `~/bin/` and cleans up the `PATH` entry in your shell config. Open a new terminal window after running it.

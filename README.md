@@ -9,7 +9,7 @@ Supports **macOS** and **Linux**.
 ## Installation
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/echo-sync/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/airrickdunfield/sync-folders/main/install.sh | sh
 ```
 
 > Replace `YOUR_USERNAME` with your GitHub username before sharing.

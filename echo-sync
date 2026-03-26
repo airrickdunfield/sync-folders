@@ -42,7 +42,7 @@ do_sync() {
     echo "${DIM}  ↓  $DEST${RESET}"
     echo ""
 
-    rsync -av --delete --progress "$SOURCE" "$DEST"
+    rsync -av --delete --progress --exclude='.*' "$SOURCE" "$DEST"
     local exit_code=$?
 
     echo ""
